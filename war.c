@@ -24,7 +24,7 @@ int main() {
         
        // Cadastro de todos os territórios
     for (totalterrritorios = 0; totalterrritorios < MAX_TERRITORIOS; totalterrritorios++) {
-        printf("== Cadastrando territorio %d ==\n", totalterrritorios + 1);
+        printf("\n== Cadastrando territorio %d ==\n", totalterrritorios + 1);
 
         printf("Digite o nome do territorio: ");
         fgets(mapa[totalterrritorios].nome, TAM_STRING, stdin);
@@ -37,13 +37,18 @@ int main() {
         printf("Numero de tropas: ");
         scanf("%d", &mapa[totalterrritorios].tropas);
         limparBuffer();
+
     }
+        printf ("\nCadastro inicial concluido com sucesso!\n");
+
             // Exemplo: mostrar os territórios cadastrados
-        printf("\nTerritorios cadastrados:\n");
+        printf("\n===============================\n");
+        printf("MAPA DO MUNDO - ESTADO ATUAL\n");
+        printf("===============================\n");
         for (int i = 0; i < MAX_TERRITORIOS; i++) {
-        printf("%d. Nome: %s | Cor: %s | Tropas: %d\n",
+        printf("Territorio %d:\n - Nome: %s\n - Dominado por: %s\n - Tropas: %d\n",
                i + 1, mapa[i].nome, mapa[i].cor, mapa[i].tropas);
- 
-            return 0;
         }
+
+        return 0;
 }

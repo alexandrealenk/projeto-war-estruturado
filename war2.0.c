@@ -75,23 +75,25 @@ void cadastrarTerritorios(Territorio *territorios) {
 void exibirMapa(Territorio *territorios) {
     printf("\n===== Estado Atual do Mapa =====\n\n");
     for (int i = 0; i < TOTAL_TERRITORIOS; i++) {
-        printf("Territorio %d:\n", i + 1);
-        printf("Nome: %s\n", territorios[i].nome);
-        printf("Cor do Exercito: %s\n", territorios[i].cor);
-        printf("Tropas: %d\n", territorios[i].tropas);
-        printf("------------------------------\n");
+        printf("%d. ", i + 1); // Número do território
+        printf("%s ", territorios[i].nome);
+        printf("(Exercito %s,", territorios[i].cor);
+        printf("Tropas: %d)", territorios[i].tropas);
     }
 }
 
 // ============================
 // Função para simular um ataque
 // ============================
-void simularAtaque(Territorio *territorios) {
+int simularAtaque(Territorio *territorios) {
     int atacante, defensor;
 
     printf("\n===== Fase de Ataque =====\n");
-    printf("Escolha o numero do territorio atacante (1 a 5): ");
+    printf("Escolha o numero do territorio atacante (1 a 5) ou 0 para sair: ");
     scanf("%d", &atacante);
+    if (atacante == 0) {
+        return 0; // sinaliza que o jogador quer sair
+    }
     printf("Escolha o numero do territorio defensor (1 a 5): ");
     scanf("%d", &defensor);
     limparBufferEntrada();
@@ -102,17 +104,17 @@ void simularAtaque(Territorio *territorios) {
     if (atacante < 0 || atacante >= TOTAL_TERRITORIOS ||
         defensor < 0 || defensor >= TOTAL_TERRITORIOS) {
         printf("Território invalido!\n");
-        return;
+        return 1; //continuar o loop, não encerra o jogo
     }
 
     if (atacante == defensor) {
         printf("Um território não pode atacar a si mesmo!\n");
-        return;
+        return 1;
     }
 
     if (territorios[atacante].tropas < 1) {
         printf("Territorio atacante não tem tropas suficientes!\n");
-        return;
+        return 1;
     }
 
     // Simular dados
@@ -138,6 +140,7 @@ void simularAtaque(Territorio *territorios) {
         territorios[atacante].tropas--;
         printf("Vitoria da defesa! Atacante perdeu 1 tropa.\n");
     }
+    return 1; // continuar o jogo
 }
 
 // ============================
@@ -162,13 +165,11 @@ int main() {
 
     // Exibe o mapa e realiza um único ataque
     
-    while (1) {
-    exibirMapa(territorios);
-    simularAtaque(territorios);
-
-    // Aguarda o usuário pressionar Enter para encerrar
-    printf("\nPressione Enter para continuar o proximo turno...");
-    getchar(); // Espera o Enter
+   // Agora o loop principal depende do retorno de simularAtaque
+    while (simularAtaque(territorios)) {
+        exibirMapa(territorios);
+        printf("\nPressione Enter para continuar o próximo turno...");
+        getchar(); // Espera o Enter
     }
 
     // Libera memória

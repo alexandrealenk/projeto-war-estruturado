@@ -74,11 +74,9 @@ void cadastrarTerritorios(Territorio *territorios) {
 // ============================
 void exibirMapa(Territorio *territorios) {
     printf("\n===== Estado Atual do Mapa =====\n\n");
-    for (int i = 0; i < TOTAL_TERRITORIOS; i++) {
-        printf("%d. ", i + 1); // Número do território
-        printf("%s ", territorios[i].nome);
-        printf("(Exercito %s,", territorios[i].cor);
-        printf("Tropas: %d)", territorios[i].tropas);
+for (int i = 0; i < TOTAL_TERRITORIOS; i++) {
+    printf("%d. %s (Exercito %s) - Tropas: %d\n",
+           i + 1, territorios[i].nome, territorios[i].cor, territorios[i].tropas);
     }
 }
 
@@ -103,17 +101,17 @@ int simularAtaque(Territorio *territorios) {
     // Verificações básicas
     if (atacante < 0 || atacante >= TOTAL_TERRITORIOS ||
         defensor < 0 || defensor >= TOTAL_TERRITORIOS) {
-        printf("Território invalido!\n");
+        printf("Territorio invalido!\n");
         return 1; //continuar o loop, não encerra o jogo
     }
 
     if (atacante == defensor) {
-        printf("Um território não pode atacar a si mesmo!\n");
+        printf("Um territorio nao pode atacar a si mesmo!\n");
         return 1;
     }
 
     if (territorios[atacante].tropas < 1) {
-        printf("Territorio atacante não tem tropas suficientes!\n");
+        printf("Territorio atacante nao tem tropas suficientes!\n");
         return 1;
     }
 
@@ -126,19 +124,27 @@ int simularAtaque(Territorio *territorios) {
     printf("O Defensor %s rolou um dado e tirou: %d\n", territorios[defensor].nome, dadoDef);
 
     // Comparar dados
-    if (dadoAtq >= dadoDef) {
-        territorios[defensor].tropas--;
-        printf("Vitoria do atacante! Defensor perdeu 1 tropa.\n");
+   if (dadoAtq >= dadoDef) {
+    territorios[defensor].tropas--;
+    printf("Vitoria do atacante! Defensor perdeu 1 tropa.\n");
 
-        if (territorios[defensor].tropas <= 0) {
-            printf("Territorio conquistado!");
-            printf(" %s conquistou %s!\n", territorios[atacante].nome, territorios[defensor].nome);
-            territorios[defensor].tropas = 1; // Mover 1 tropa para o território conquistado
-            territorios[atacante].tropas--;   // Reduzir 1 tropa do atacante
+    if (territorios[defensor].tropas <= 0) {
+        printf("Territorio conquistado!");
+        printf(" %s conquistou %s!\n", territorios[atacante].nome, territorios[defensor].nome);
+
+        // Verifica se o atacante tem tropas suficientes para mover
+        if (territorios[atacante].tropas > 1) {
+            territorios[defensor].tropas = 1;      // Move 1 tropa para o território conquistado
+            territorios[atacante].tropas--;        // Remove 1 tropa do atacante
+        } else {
+            // Se não tiver tropas suficientes, mantém o território com 0 tropas
+            territorios[defensor].tropas = 0;
+            printf("Atacante nao tem tropas suficientes para ocupar o territorio.\n");
         }
+    }
     } else {
-        territorios[atacante].tropas--;
-        printf("Vitoria da defesa! Atacante perdeu 1 tropa.\n");
+    territorios[atacante].tropas--;
+    printf("Vitoria da defesa! Atacante perdeu 1 tropa.\n");
     }
     return 1; // continuar o jogo
 }
@@ -156,7 +162,7 @@ int main() {
     // Alocação dinâmica com calloc
     Territorio *territorios = (Territorio *)calloc(TOTAL_TERRITORIOS, sizeof(Territorio));
     if (territorios == NULL) {
-        printf("Erro ao alocar memória!\n");
+        printf("Erro ao alocar memoria!\n");
         return 1;
     }
 
@@ -168,13 +174,13 @@ int main() {
    // Agora o loop principal depende do retorno de simularAtaque
     while (simularAtaque(territorios)) {
         exibirMapa(territorios);
-        printf("\nPressione Enter para continuar o próximo turno...");
+        printf("\nPressione Enter para continuar o proximo turno...");
         getchar(); // Espera o Enter
     }
 
     // Libera memória
     free(territorios);
-    printf("\nFim do jogo. Memoria liberada.\n");
+    printf("\nFim do jogo e memoria liberada! Ate a proxima!\n");
 
     return 0;
 }

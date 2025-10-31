@@ -56,8 +56,8 @@ void inicializarTerritorios(Territorio *territorios) {
 void exibirMapa(const Territorio *territorios) {
     printf("\n===== Estado Atual do Mapa =====\n");
     for (int i = 0; i < TOTAL_TERRITORIOS; i++) {
-        printf("Território %d: %s\n", i + 1, territorios[i].nome);
-        printf("  Cor do Exército: %s\n", territorios[i].cor);
+        printf("Territorio %d: %s\n", i + 1, territorios[i].nome);
+        printf("  Cor do Exercito: %s\n", territorios[i].cor);
         printf("  Tropas: %d\n", territorios[i].tropas);
         printf("  Dono: %s\n", territorios[i].dono == 1 ? "Jogador" : "Inimigo");
         printf("-------------------------------\n");
@@ -72,31 +72,31 @@ void realizarAtaque(Territorio *territorios) {
 
     exibirMapa(territorios);
 
-    printf("Digite o número do território ATACANTE (1-5): ");
+    printf("Digite o numero do territorio ATACANTE (1-5): ");
     scanf("%d", &atq);
-    printf("Digite o número do território DEFENSOR (1-5): ");
+    printf("Digite o numero do territorio DEFENSOR (1-5): ");
     scanf("%d", &def);
     limparBufferEntrada();
 
     atq--; def--; // ajustar para índice do vetor
 
     if (atq < 0 || atq >= TOTAL_TERRITORIOS || def < 0 || def >= TOTAL_TERRITORIOS) {
-        printf("❌ Território inválido!\n");
+        printf("❌ Territorio invalido!\n");
         return;
     }
 
     if (atq == def) {
-        printf("❌ Um território não pode atacar a si mesmo!\n");
+        printf("❌ Um territorio nao pode atacar a si mesmo!\n");
         return;
     }
 
     if (territorios[atq].dono != 1) {
-        printf("❌ Você só pode atacar de territórios seus.\n");
+        printf("❌ Voce so pode atacar de territorios seus.\n");
         return;
     }
 
     if (territorios[def].dono == 1) {
-        printf("❌ Você não pode atacar seus próprios territórios.\n");
+        printf("❌ Voce nao pode atacar seus proprios territorios.\n");
         return;
     }
 
@@ -115,7 +115,7 @@ void realizarAtaque(Territorio *territorios) {
         territorios[def].tropas--;
         printf("✅ Ataque bem-sucedido! Tropas inimigas restantes: %d\n", territorios[def].tropas);
         if (territorios[def].tropas <= 0) {
-            printf("🏳️ Território conquistado!\n");
+            printf("🏳️ Territorio conquistado!\n");
             territorios[def].dono = 1;
             territorios[def].tropas = 1;
             territorios[atq].tropas--;
@@ -181,10 +181,10 @@ void exibirMissao(int tipoMissao) {
     printf("\n🎯 Sua missão: ");
     switch (tipoMissao) {
         case 1:
-            printf("Destruir todos os territórios do exército Verde.\n");
+            printf("Destruir todos os territorios do exercito Verde.\n");
             break;
         case 2:
-            printf("Conquistar pelo menos 3 territórios.\n");
+            printf("Conquistar pelo menos 3 territorios.\n");
             break;
         default:
             printf("Missão desconhecida.\n");
@@ -214,7 +214,7 @@ int main() {
 
     Territorio *territorios = (Territorio *)calloc(TOTAL_TERRITORIOS, sizeof(Territorio));
     if (!territorios) {
-        printf("Erro de alocação de memória!\n");
+        printf("Erro de alocacao de memoria!\n");
         return 1;
     }
 
@@ -231,7 +231,7 @@ int main() {
             case 1:
                 realizarAtaque(territorios);
                 if (verificarMissao(territorios, missao)) {
-                    printf("\n🏆 Parabéns! Você cumpriu sua missão e venceu o jogo!\n");
+                    printf("\n🏆 Parabens! Voce cumpriu sua missao e venceu o jogo!\n");
                     fim = 1;
                 }
                 break;
@@ -245,7 +245,7 @@ int main() {
                 break;
 
             default:
-                printf("❌ Opção inválida.\n");
+                printf("❌ Opção invalida.\n");
         }
     }
 

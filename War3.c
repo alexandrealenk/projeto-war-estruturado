@@ -81,27 +81,27 @@ void realizarAtaque(Territorio *territorios) {
     atq--; def--; // ajustar para índice do vetor
 
     if (atq < 0 || atq >= TOTAL_TERRITORIOS || def < 0 || def >= TOTAL_TERRITORIOS) {
-        printf("❌ Territorio invalido!\n");
+        printf("Territorio invalido!\n");
         return;
     }
 
     if (atq == def) {
-        printf("❌ Um territorio nao pode atacar a si mesmo!\n");
+        printf("Um territorio nao pode atacar a si mesmo!\n");
         return;
     }
 
     if (territorios[atq].dono != 1) {
-        printf("❌ Voce so pode atacar de territorios seus.\n");
+        printf("Voce so pode atacar de territorios seus.\n");
         return;
     }
 
     if (territorios[def].dono == 1) {
-        printf("❌ Voce nao pode atacar seus proprios territorios.\n");
+        printf("Voce nao pode atacar seus proprios territorios.\n");
         return;
     }
 
     if (territorios[atq].tropas < 1) {
-        printf("❌ Tropas insuficientes para atacar!\n");
+        printf("Tropas insuficientes para atacar!\n");
         return;
     }
 
@@ -178,7 +178,7 @@ int verificarMissao(const Territorio *territorios, int tipoMissao) {
 // Exibe a missão do jogador
 // =====================
 void exibirMissao(int tipoMissao) {
-    printf("\n🎯 Sua missão: ");
+    printf("\nSua missao: ");
     switch (tipoMissao) {
         case 1:
             printf("Destruir todos os territorios do exercito Verde.\n");
@@ -187,7 +187,7 @@ void exibirMissao(int tipoMissao) {
             printf("Conquistar pelo menos 3 territorios.\n");
             break;
         default:
-            printf("Missão desconhecida.\n");
+            printf("Missao desconhecida.\n");
     }
 }
 
@@ -198,9 +198,9 @@ int menuPrincipal() {
     int opcao;
     printf("\n===== MENU =====\n");
     printf("1 - Atacar\n");
-    printf("2 - Verificar missão\n");
+    printf("2 - Verificar missao\n");
     printf("0 - Sair\n");
-    printf("Escolha uma opção: ");
+    printf("Escolha uma opcao: ");
     scanf("%d", &opcao);
     limparBufferEntrada();
     return opcao;
@@ -231,7 +231,7 @@ int main() {
             case 1:
                 realizarAtaque(territorios);
                 if (verificarMissao(territorios, missao)) {
-                    printf("\n🏆 Parabens! Voce cumpriu sua missao e venceu o jogo!\n");
+                    printf("\nParabens! Voce cumpriu sua missao e venceu o jogo!\n");
                     fim = 1;
                 }
                 break;
@@ -245,11 +245,11 @@ int main() {
                 break;
 
             default:
-                printf("❌ Opção invalida.\n");
+                printf("Opcao invalida.\n");
         }
     }
 
     free(territorios);
-    printf("👋 Jogo encerrado. Obrigado por jogar!\n");
+    printf("Jogo encerrado. Obrigado por jogar!\n");
     return 0;
 }
